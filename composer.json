@@ -24,7 +24,7 @@
         "lstrojny/hmmmath": ">=0.5.0",
         "guzzlehttp/guzzle": "^6.5",
         "slim/slim": "^3.12",
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^3.16",
         "sensiolabs/security-checker": "^6.0"
     },
     "require-dev": {
