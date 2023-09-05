@@ -2,8 +2,6 @@
 
 namespace InterNations\Component\HttpMock\Matcher;
 
-use Closure;
-
 class MatcherFactory
 {
     public function regex($regex)
@@ -16,7 +14,7 @@ class MatcherFactory
         return new StringMatcher($string);
     }
 
-    public function closure(Closure $closure)
+    public function closure(\Closure $closure)
     {
         return new ClosureMatcher($closure);
     }

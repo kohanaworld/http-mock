@@ -2,7 +2,6 @@
 
 namespace InterNations\Component\HttpMock\Matcher;
 
-use Closure;
 use Psr\Http\Message\RequestInterface as Request;
 use SuperClosure\SerializableClosure;
 
@@ -10,7 +9,7 @@ abstract class AbstractMatcher implements MatcherInterface
 {
     protected $extractor;
 
-    public function setExtractor(Closure $extractor)
+    public function setExtractor(\Closure $extractor)
     {
         $this->extractor = $extractor;
     }

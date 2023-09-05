@@ -8,7 +8,6 @@ use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
 use InterNations\Component\HttpMock\RequestCollectionFacade;
 use InterNations\Component\HttpMock\Server;
-use RuntimeException;
 
 /**
  * @property Server                  $server   The HTTP mock server that is currently running
@@ -71,7 +70,7 @@ class HttpMockFacade
                 break;
 
             default:
-                throw new RuntimeException(sprintf('Invalid property "%s" read', $property));
+                throw new \RuntimeException(sprintf('Invalid property "%s" read', $property));
                 break;
         }
     }

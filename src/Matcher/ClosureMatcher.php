@@ -2,13 +2,11 @@
 
 namespace InterNations\Component\HttpMock\Matcher;
 
-use Closure;
-
 class ClosureMatcher extends AbstractMatcher
 {
     private $closure;
 
-    public function __construct(Closure $closure)
+    public function __construct(\Closure $closure)
     {
         $this->closure = $closure;
     }

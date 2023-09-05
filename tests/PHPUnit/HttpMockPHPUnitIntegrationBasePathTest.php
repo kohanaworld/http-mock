@@ -36,7 +36,7 @@ class HttpMockPHPUnitIntegrationBasePathTest extends AbstractTestCase
             ->when()
                 ->pathIs('/foo')
             ->then()
-                ->body('/foo' . ' body')
+                ->body('/foo body')
             ->end();
         $this->http->setUp();
 

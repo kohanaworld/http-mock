@@ -4,7 +4,6 @@ namespace InterNations\Component\HttpMock;
 
 use GuzzleHttp\Client;
 use hmmmath\Fibonacci\FibonacciFactory;
-use RuntimeException;
 use Symfony\Component\Process\Process;
 
 class Server extends Process
@@ -71,7 +70,7 @@ class Server extends Process
     /**
      * @param Expectation[] $expectations
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function setUp(array $expectations)
     {
@@ -88,7 +87,7 @@ class Server extends Process
             );
 
             if ($response->getStatusCode() !== 201) {
-                throw new RuntimeException('Could not set up expectations: ' . $response->getBody()->getContents());
+                throw new \RuntimeException('Could not set up expectations: ' . $response->getBody()->getContents());
             }
         }
     }
@@ -149,7 +148,7 @@ class Server extends Process
     private static function stringEndsWithAny($haystack, array $needles)
     {
         foreach ($needles as $needle) {
-            if (substr($haystack, (-1 * strlen($needle))) === $needle) {
+            if (substr($haystack, -1 * strlen($needle)) === $needle) {
                 return true;
             }
         }

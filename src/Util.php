@@ -4,7 +4,6 @@ namespace InterNations\Component\HttpMock;
 
 use function GuzzleHttp\Psr7\parse_response;
 use function GuzzleHttp\Psr7\str;
-use UnexpectedValueException;
 
 final class Util
 {
@@ -13,7 +12,7 @@ final class Util
         $result = static::silentDeserialize($string);
 
         if ($result === false) {
-            throw new UnexpectedValueException('Cannot deserialize string');
+            throw new \UnexpectedValueException('Cannot deserialize string');
         }
 
         return $result;

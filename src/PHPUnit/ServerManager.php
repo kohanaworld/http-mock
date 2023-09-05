@@ -3,13 +3,12 @@
 namespace InterNations\Component\HttpMock\PHPUnit;
 
 use InterNations\Component\HttpMock\Server;
-use SplObjectStorage;
 
 // @codingStandardsIgnoreStart
 final class ServerManager
 // @codingStandardsIgnoreEnd
 {
-    /** @var SplObjectStorage|Server[] */
+    /** @var \SplObjectStorage|Server[] */
     private $servers;
 
     private static $instance;
@@ -45,7 +44,7 @@ final class ServerManager
 
     private function __construct()
     {
-        $this->servers = new SplObjectStorage();
+        $this->servers = new \SplObjectStorage();
         register_shutdown_function([$this, 'cleanup']);
     }
 

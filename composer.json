@@ -52,7 +52,7 @@
             "@auto-scripts"
         ],
         "lint": [
-            "php-cs-fixer fix --ansi --verbose --show-progress=estimating"
+            "php-cs-fixer fix --ansi --verbose --show-progress=dots"
         ],
         "lint:check": [
             "@lint --dry-run"

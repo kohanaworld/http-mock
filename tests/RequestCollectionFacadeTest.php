@@ -65,11 +65,11 @@ class RequestCollectionFacadeTest extends AbstractTestCase
         $this->assertSame('RECORDED=1', (string) $request->getBody());
         $this->assertSame('localhost', $request->getUri()->getHost());
         $this->assertSame(1234, $request->getUri()->getPort());
-        $this->assertSame('CUSTOM UA', $request->getHeaderLine(('User-Agent')));
+        $this->assertSame('CUSTOM UA', $request->getHeaderLine('User-Agent'));
     }
 
     /** @dataProvider provideMethodAndUrls */
-    public function testRequestResponse_InvalidStatusCode($method, $path, array $args = [], $httpMethod = 'get')
+    public function testRequestResponseInvalidStatusCode($method, $path, array $args = [], $httpMethod = 'get')
     {
         $this->mockClient($path, $this->createResponseWithInvalidStatusCode(), $httpMethod);
 
@@ -80,7 +80,7 @@ class RequestCollectionFacadeTest extends AbstractTestCase
     }
 
     /** @dataProvider provideMethodAndUrls */
-    public function testRequestResponse_EmptyContentType($method, $path, array $args = [], $httpMethod = 'get')
+    public function testRequestResponseEmptyContentType($method, $path, array $args = [], $httpMethod = 'get')
     {
         $this->mockClient($path, $this->createResponseWithEmptyContentType(), $httpMethod);
 
@@ -91,7 +91,7 @@ class RequestCollectionFacadeTest extends AbstractTestCase
     }
 
     /** @dataProvider provideMethodAndUrls */
-    public function testRequestResponse_InvalidContentType($method, $path, array $args = [], $httpMethod = 'get')
+    public function testRequestResponseInvalidContentType($method, $path, array $args = [], $httpMethod = 'get')
     {
         $this->mockClient($path, $this->createResponseWithInvalidContentType(), $httpMethod);
 
@@ -102,7 +102,7 @@ class RequestCollectionFacadeTest extends AbstractTestCase
     }
 
     /** @dataProvider provideMethodAndUrls */
-    public function testRequestResponse_DeserializationError($method, $path, array $args = [], $httpMethod = 'get')
+    public function testRequestResponseDeserializationError($method, $path, array $args = [], $httpMethod = 'get')
     {
         $this->mockClient($path, $this->createResponseThatCannotBeDeserialized(), $httpMethod);
 
