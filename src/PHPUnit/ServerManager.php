@@ -14,16 +14,14 @@ final class ServerManager
 
     private static $instance;
 
-    /**
-     * @return self
-     */
-    public static function getInstance()
+    private function __construct()
     {
-        if (!static::$instance) {
-            static::$instance = new static();
-        }
+        $this->servers = new SplObjectStorage();
+        register_shutdown_function([$this, 'cleanup']);
+    }
 
-        return static::$instance;
+    private function __clone()
+    {
     }
 
     public function add(Server $server)
@@ -43,13 +41,15 @@ final class ServerManager
         }
     }
 
-    private function __construct()
+    /**
+     * @return self
+     */
+    public static function getInstance()
     {
-        $this->servers = new SplObjectStorage();
-        register_shutdown_function([$this, 'cleanup']);
-    }
+        if (!static::$instance) {
+            static::$instance = new static();
+        }
 
-    private function __clone()
-    {
+        return static::$instance;
     }
 }

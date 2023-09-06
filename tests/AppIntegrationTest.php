@@ -12,6 +12,7 @@ use SuperClosure\SerializableClosure;
 
 /**
  * @large
+ *
  * @group integration
  */
 class AppIntegrationTest extends AbstractTestCase
@@ -38,7 +39,7 @@ class AppIntegrationTest extends AbstractTestCase
         static::assertSame('', $out, $out);
 
         $out = (string) static::$server1->getErrorOutput();
-        //static::assertSame('', $out, $out);
+        // static::assertSame('', $out, $out);
         echo $out . "\n";
 
         static::$server1->stop();

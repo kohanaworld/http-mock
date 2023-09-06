@@ -4,7 +4,9 @@ namespace InterNations\Component\HttpMock;
 
 use Countable;
 use GuzzleHttp\Client;
+
 use function GuzzleHttp\Psr7\parse_request;
+
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

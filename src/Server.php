@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock;
 
+use Exception;
 use GuzzleHttp\Client;
 use hmmmath\Fibonacci\FibonacciFactory;
 use RuntimeException;
@@ -36,38 +37,6 @@ class Server extends Process
         $this->setTimeout(null);
     }
 
-    public function start(callable $callback = null, array $env = [])
-    {
-        parent::start($callback, $env);
-
-        $this->pollWait();
-    }
-
-    public function stop($timeout = 10, $signal = null)
-    {
-        return parent::stop($timeout, $signal);
-    }
-
-    public function getClient()
-    {
-        return $this->client ?: $this->client = $this->createClient();
-    }
-
-    private function createClient()
-    {
-        return new Client(['base_uri' => $this->getBaseUrl(), 'http_errors' => false]);
-    }
-
-    public function getBaseUrl()
-    {
-        return sprintf('http://%s', $this->getConnectionString());
-    }
-
-    public function getConnectionString()
-    {
-        return sprintf('%s:%d', $this->host, $this->port);
-    }
-
     /**
      * @param Expectation[] $expectations
      *
@@ -93,6 +62,33 @@ class Server extends Process
         }
     }
 
+    public function start(callable $callback = null, array $env = [])
+    {
+        parent::start($callback, $env);
+
+        $this->pollWait();
+    }
+
+    public function stop($timeout = 10, $signal = null)
+    {
+        return parent::stop($timeout, $signal);
+    }
+
+    public function getClient()
+    {
+        return $this->client ?: $this->client = $this->createClient();
+    }
+
+    public function getBaseUrl()
+    {
+        return sprintf('http://%s', $this->getConnectionString());
+    }
+
+    public function getConnectionString()
+    {
+        return sprintf('%s:%d', $this->host, $this->port);
+    }
+
     public function clean()
     {
         if (!$this->isRunning()) {
@@ -100,19 +96,6 @@ class Server extends Process
         }
 
         $this->getClient()->delete('/_all');
-    }
-
-    private function pollWait()
-    {
-        foreach (FibonacciFactory::sequence(50000, 10000) as $sleepTime) {
-            try {
-                usleep($sleepTime);
-                $this->getClient()->head('/_me');
-                break;
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
     }
 
     public function getIncrementalErrorOutput()
@@ -123,6 +106,24 @@ class Server extends Process
     public function getErrorOutput()
     {
         return self::cleanErrorOutput(parent::getErrorOutput());
+    }
+
+    private function createClient()
+    {
+        return new Client(['base_uri' => $this->getBaseUrl(), 'http_errors' => false]);
+    }
+
+    private function pollWait()
+    {
+        foreach (FibonacciFactory::sequence(50000, 10000) as $sleepTime) {
+            try {
+                usleep($sleepTime);
+                $this->getClient()->head('/_me');
+                break;
+            } catch (Exception $e) {
+                continue;
+            }
+        }
     }
 
     private static function cleanErrorOutput($output)
@@ -149,7 +150,7 @@ class Server extends Process
     private static function stringEndsWithAny($haystack, array $needles)
     {
         foreach ($needles as $needle) {
-            if (substr($haystack, (-1 * strlen($needle))) === $needle) {
+            if (substr($haystack, -1 * strlen($needle)) === $needle) {
                 return true;
             }
         }

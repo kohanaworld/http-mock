@@ -13,6 +13,7 @@ use Psr\Http\Message\RequestInterface as Request;
 
 /**
  * @large
+ *
  * @group integration
  */
 class MockBuilderIntegrationTest extends TestCase
@@ -75,7 +76,7 @@ class MockBuilderIntegrationTest extends TestCase
             $unserializedClosure = unserialize(serialize($closure));
             $this->assertTrue($unserializedClosure($request));
 
-            ++$run;
+            $run++;
         }
         ini_set('error_log', $oldValue);
         $this->assertSame(3, $run);

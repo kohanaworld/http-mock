@@ -11,11 +11,11 @@ use InterNations\Component\HttpMock\Server;
 use RuntimeException;
 
 /**
- * @property Server                  $server   The HTTP mock server that is currently running
- * @property MatcherFactory          $matches  An instance of the matcher factory
- * @property MockBuilder             $mock     An instance of the mock builder
+ * @property Server $server The HTTP mock server that is currently running
+ * @property MatcherFactory $matches An instance of the matcher factory
+ * @property MockBuilder $mock An instance of the mock builder
  * @property RequestCollectionFacade $requests Convenient access to recorded requests
- * @property Client                  $client   A pre configured HTTP for client for the currently running server
+ * @property Client $client A pre configured HTTP for client for the currently running server
  */
 class HttpMockFacade
 {
@@ -32,16 +32,6 @@ class HttpMockFacade
         $this->basePath = $basePath;
     }
 
-    public static function getProperties()
-    {
-        return ['server', 'matches', 'mock', 'requests', 'client'];
-    }
-
-    public function setUp()
-    {
-        $this->server->setUp($this->mock->flushExpectations());
-    }
-
     public function __get($property)
     {
         if (isset($this->services[$property])) {
@@ -49,6 +39,21 @@ class HttpMockFacade
         }
 
         return $this->services[$property] = $this->createService($property);
+    }
+
+    public function __clone()
+    {
+        $this->server->clean();
+    }
+
+    public function setUp()
+    {
+        $this->server->setUp($this->mock->flushExpectations());
+    }
+
+    public function each(callable $callback)
+    {
+        $callback($this);
     }
 
     private function createService($property)
@@ -76,13 +81,8 @@ class HttpMockFacade
         }
     }
 
-    public function __clone()
+    public static function getProperties()
     {
-        $this->server->clean();
-    }
-
-    public function each(callable $callback)
-    {
-        $callback($this);
+        return ['server', 'matches', 'mock', 'requests', 'client'];
     }
 }

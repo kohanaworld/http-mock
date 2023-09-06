@@ -4,7 +4,9 @@ namespace InterNations\Component\HttpMock;
 
 use Closure;
 use GuzzleHttp\Psr7\Response;
+
 use function GuzzleHttp\Psr7\stream_for;
+
 use Psr\Http\Message\ResponseInterface;
 use SuperClosure\SerializableClosure;
 use SuperClosure\SerializerInterface;

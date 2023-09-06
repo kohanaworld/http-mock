@@ -48,11 +48,6 @@ class RequestStorage
         $this->store($request, $name, $list);
     }
 
-    private function getFileName(Request $request, $name)
-    {
-        return $this->directory . $this->pid . '-' . $name . '-' . $request->getUri()->getPort();
-    }
-
     public function clear(Request $request, $name)
     {
         $fileName = $this->getFileName($request, $name);
@@ -60,5 +55,10 @@ class RequestStorage
         if (file_exists($fileName)) {
             unlink($fileName);
         }
+    }
+
+    private function getFileName(Request $request, $name)
+    {
+        return $this->directory . $this->pid . '-' . $name . '-' . $request->getUri()->getPort();
     }
 }

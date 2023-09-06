@@ -4,6 +4,7 @@ namespace InterNations\Component\HttpMock;
 
 use function GuzzleHttp\Psr7\parse_response;
 use function GuzzleHttp\Psr7\str;
+
 use UnexpectedValueException;
 
 final class Util
