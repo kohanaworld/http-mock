@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock\Matcher;
 
+use Closure;
 use SuperClosure\SerializableClosure;
 
 interface MatcherInterface
@@ -11,5 +12,5 @@ interface MatcherInterface
      */
     public function getMatcher();
 
-    public function setExtractor(\Closure $extractor);
+    public function setExtractor(Closure $extractor);
 }

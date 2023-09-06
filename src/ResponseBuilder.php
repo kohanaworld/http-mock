@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock;
 
+use Closure;
 use GuzzleHttp\Psr7\Response;
 
 use function GuzzleHttp\Psr7\stream_for;
@@ -41,7 +42,7 @@ class ResponseBuilder
         return $this;
     }
 
-    public function callback(\Closure $callback) : self
+    public function callback(Closure $callback) : self
     {
         $this->responseCallback = new SerializableClosure($callback);
 

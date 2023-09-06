@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock\Tests\PHPUnit;
 
+use Exception;
 use InterNations\Component\HttpMock\PHPUnit\HttpMockTrait;
 use InterNations\Component\Testing\AbstractTestCase;
 use PHPUnit\Framework\TestCase;
@@ -31,16 +32,6 @@ class HttpMockMultiPHPUnitIntegrationTest extends AbstractTestCase
     public function tearDown()
     {
         $this->tearDownHttpMock();
-    }
-
-    public static function getPaths()
-    {
-        return [
-            [
-                '/foo',
-                '/bar',
-            ],
-        ];
     }
 
     /** @dataProvider getPaths */
@@ -103,7 +94,7 @@ class HttpMockMultiPHPUnitIntegrationTest extends AbstractTestCase
         try {
             $this->tearDown();
             $this->fail('Exception expected');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->assertContains('HTTP mock server standard error output should be empty', $e->getMessage());
         }
     }
@@ -267,5 +258,15 @@ class HttpMockMultiPHPUnitIntegrationTest extends AbstractTestCase
 
         $this->expectExceptionMessage('Cannot instantiate abstract class');
         new TestCase();
+    }
+
+    public static function getPaths()
+    {
+        return [
+            [
+                '/foo',
+                '/bar',
+            ],
+        ];
     }
 }

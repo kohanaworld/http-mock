@@ -2,8 +2,10 @@
 
 namespace InterNations\Component\HttpMock;
 
+use Exception;
 use GuzzleHttp\Client;
 use hmmmath\Fibonacci\FibonacciFactory;
+use RuntimeException;
 use Symfony\Component\Process\Process;
 
 class Server extends Process
@@ -35,6 +37,31 @@ class Server extends Process
         $this->setTimeout(null);
     }
 
+    /**
+     * @param Expectation[] $expectations
+     *
+     * @throws RuntimeException
+     */
+    public function setUp(array $expectations)
+    {
+        /** @var Expectation $expectation */
+        foreach ($expectations as $expectation) {
+            $response = $this->getClient()->post(
+                '/_expectation',
+                ['json' => [
+                    'matcher' => serialize($expectation->getMatcherClosures()),
+                    'limiter' => serialize($expectation->getLimiter()),
+                    'response' => Util::serializePsrMessage($expectation->getResponse()),
+                    'responseCallback' => serialize($expectation->getResponseCallback()),
+                ]]
+            );
+
+            if ($response->getStatusCode() !== 201) {
+                throw new RuntimeException('Could not set up expectations: ' . $response->getBody()->getContents());
+            }
+        }
+    }
+
     public function start(callable $callback = null, array $env = [])
     {
         parent::start($callback, $env);
@@ -52,11 +79,6 @@ class Server extends Process
         return $this->client ?: $this->client = $this->createClient();
     }
 
-    private function createClient()
-    {
-        return new Client(['base_uri' => $this->getBaseUrl(), 'http_errors' => false]);
-    }
-
     public function getBaseUrl()
     {
         return sprintf('http://%s', $this->getConnectionString());
@@ -65,31 +87,6 @@ class Server extends Process
     public function getConnectionString()
     {
         return sprintf('%s:%d', $this->host, $this->port);
-    }
-
-    /**
-     * @param Expectation[] $expectations
-     *
-     * @throws \RuntimeException
-     */
-    public function setUp(array $expectations)
-    {
-        /** @var Expectation $expectation */
-        foreach ($expectations as $expectation) {
-            $response = $this->getClient()->post(
-                '/_expectation',
-                ['json' => [
-                    'matcher' => serialize($expectation->getMatcherClosures()),
-                    'limiter' => serialize($expectation->getLimiter()),
-                    'response' => Util::serializePsrMessage($expectation->getResponse()),
-                    'responseCallback' => serialize($expectation->getResponseCallback()),
-                ]]
-            );
-
-            if ($response->getStatusCode() !== 201) {
-                throw new \RuntimeException('Could not set up expectations: ' . $response->getBody()->getContents());
-            }
-        }
     }
 
     public function clean()
@@ -101,19 +98,6 @@ class Server extends Process
         $this->getClient()->delete('/_all');
     }
 
-    private function pollWait()
-    {
-        foreach (FibonacciFactory::sequence(50000, 10000) as $sleepTime) {
-            try {
-                usleep($sleepTime);
-                $this->getClient()->head('/_me');
-                break;
-            } catch (\Exception $e) {
-                continue;
-            }
-        }
-    }
-
     public function getIncrementalErrorOutput()
     {
         return self::cleanErrorOutput(parent::getIncrementalErrorOutput());
@@ -122,6 +106,24 @@ class Server extends Process
     public function getErrorOutput()
     {
         return self::cleanErrorOutput(parent::getErrorOutput());
+    }
+
+    private function createClient()
+    {
+        return new Client(['base_uri' => $this->getBaseUrl(), 'http_errors' => false]);
+    }
+
+    private function pollWait()
+    {
+        foreach (FibonacciFactory::sequence(50000, 10000) as $sleepTime) {
+            try {
+                usleep($sleepTime);
+                $this->getClient()->head('/_me');
+                break;
+            } catch (Exception $e) {
+                continue;
+            }
+        }
     }
 
     private static function cleanErrorOutput($output)

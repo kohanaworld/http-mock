@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock;
 
+use Closure;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 
@@ -13,7 +14,7 @@ class MockBuilder
     /** @var MatcherFactory */
     private $matcherFactory;
 
-    /** @var \Closure */
+    /** @var Closure */
     private $limiter;
 
     /** @var ExtractorFactory */

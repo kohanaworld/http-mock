@@ -29,18 +29,6 @@ class RequestCollectionFacadeTest extends AbstractTestCase
         $this->request = new Request('GET', '/_request/last');
     }
 
-    public static function provideMethodAndUrls()
-    {
-        return [
-            ['latest', '/_request/last'],
-            ['first', '/_request/first'],
-            ['last', '/_request/last'],
-            ['at', '/_request/0', [0]],
-            ['shift', '/_request/first', [], 'delete'],
-            ['pop', '/_request/last', [], 'delete'],
-        ];
-    }
-
     /** @dataProvider provideMethodAndUrls */
     public function testRequestingLatestRequest($method, $path, array $args = [], $httpMethod = 'get')
     {
@@ -184,5 +172,17 @@ class RequestCollectionFacadeTest extends AbstractTestCase
     private function createResponseThatCannotBeDeserialized()
     {
         return new Response(200, ['Content-Type' => 'text/plain'], 'invalid response');
+    }
+
+    public static function provideMethodAndUrls()
+    {
+        return [
+            ['latest', '/_request/last'],
+            ['first', '/_request/first'],
+            ['last', '/_request/last'],
+            ['at', '/_request/0', [0]],
+            ['shift', '/_request/first', [], 'delete'],
+            ['pop', '/_request/last', [], 'delete'],
+        ];
     }
 }

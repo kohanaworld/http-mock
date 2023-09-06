@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock;
 
+use Countable;
 use GuzzleHttp\Client;
 
 use function GuzzleHttp\Psr7\parse_request;
@@ -9,8 +10,9 @@ use function GuzzleHttp\Psr7\parse_request;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use UnexpectedValueException;
 
-class RequestCollectionFacade implements \Countable
+class RequestCollectionFacade implements Countable
 {
     private $client;
 
@@ -62,8 +64,8 @@ class RequestCollectionFacade implements \Countable
         try {
             $contents = $response->getBody()->getContents();
             $requestInfo = Util::deserialize($contents);
-        } catch (\UnexpectedValueException $e) {
-            throw new \UnexpectedValueException(sprintf('Cannot deserialize response from "%s": "%s"', $path, $contents), null, $e);
+        } catch (UnexpectedValueException $e) {
+            throw new UnexpectedValueException(sprintf('Cannot deserialize response from "%s": "%s"', $path, $contents), null, $e);
         }
 
         return parse_request($requestInfo['request']);
@@ -90,7 +92,7 @@ class RequestCollectionFacade implements \Countable
         $statusCode = $response->getStatusCode();
 
         if ($statusCode !== 200) {
-            throw new \UnexpectedValueException(sprintf('Expected status code 200 from "%s", got %d', $path, $statusCode));
+            throw new UnexpectedValueException(sprintf('Expected status code 200 from "%s", got %d', $path, $statusCode));
         }
 
         $contentType = $response->hasHeader('content-type')
@@ -98,7 +100,7 @@ class RequestCollectionFacade implements \Countable
             : '';
 
         if (substr($contentType, 0, 10) !== 'text/plain') {
-            throw new \UnexpectedValueException(sprintf('Expected content type "text/plain" from "%s", got "%s"', $path, $contentType));
+            throw new UnexpectedValueException(sprintf('Expected content type "text/plain" from "%s", got "%s"', $path, $contentType));
         }
 
         return $this->parseRequestFromResponse($response, $path);

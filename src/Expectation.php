@@ -2,6 +2,7 @@
 
 namespace InterNations\Component\HttpMock;
 
+use Closure;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherInterface;
@@ -18,7 +19,7 @@ class Expectation
     /** @var ResponseBuilder */
     private $responseBuilder;
 
-    /** @var \Closure */
+    /** @var Closure */
     private $limiter;
 
     /** @var ExtractorFactory */
@@ -28,7 +29,7 @@ class Expectation
         MockBuilder $mockBuilder,
         MatcherFactory $matcherFactory,
         ExtractorFactory $extractorFactory,
-        \Closure $limiter
+        Closure $limiter
     ) {
         $this->matcherFactory = $matcherFactory;
         $this->responseBuilder = new ResponseBuilder($mockBuilder);
@@ -112,7 +113,7 @@ class Expectation
         return $this;
     }
 
-    public function callback(\Closure $callback)
+    public function callback(Closure $callback)
     {
         $this->appendMatcher($this->matcherFactory->closure($callback));
 
@@ -151,7 +152,7 @@ class Expectation
         return new SerializableClosure($this->limiter);
     }
 
-    private function appendMatcher($matcher, \Closure $extractor = null)
+    private function appendMatcher($matcher, Closure $extractor = null)
     {
         $matcher = $this->createMatcher($matcher);
 

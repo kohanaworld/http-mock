@@ -5,8 +5,10 @@
 namespace InterNations\Component\HttpMock;
 
 use Error;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use RuntimeException;
 use Slim\App;
 use Slim\Container;
 use Slim\Http\StatusCode;
@@ -27,7 +29,7 @@ foreach ($autoloadFiles as $autoloadFile) {
 }
 
 if (!$autoloaderFound) {
-    throw new \RuntimeException(sprintf('Could not locate autoloader file. Tried "%s"', implode($autoloadFiles, '", "')));
+    throw new RuntimeException(sprintf('Could not locate autoloader file. Tried "%s"', implode($autoloadFiles, '", "')));
 }
 
 $container = new Container([
@@ -74,7 +76,7 @@ $app->post(
 
         try {
             $responseToSave = Util::responseDeserialize($data['response']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withStatus(StatusCode::HTTP_EXPECTATION_FAILED)->write(
                 'POST data key "response" must be an http response message in text form'
             );
@@ -125,7 +127,7 @@ $app->post(
 );
 
 $container['phpErrorHandler'] = function ($container) {
-    return function (Request $request, Response $response, \Error $e) {
+    return function (Request $request, Response $response, Error $e) {
         return $response->withStatus(500)
             ->withHeader('Content-Type', 'text/plain')
             ->write($e->getMessage() . "\n" . $e->getTraceAsString() . "\n");
@@ -186,7 +188,7 @@ $container['notFoundHandler'] = function ($container) {
 };
 
 $container['errorHandler'] = function ($container) {
-    return function (Request $request, Response $response, \Exception $e) {
+    return function (Request $request, Response $response, Exception $e) {
         return $response->withStatus(StatusCode::HTTP_INTERNAL_SERVER_ERROR)->write(
             'Server error: ' . $e->getMessage());
     };
