@@ -6,24 +6,19 @@ use Closure;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherInterface;
-use SuperClosure\SerializableClosure;
+use Opis\Closure\SerializableClosure;
 
 class Expectation
 {
-    /** @var MatcherInterface[] */
-    private $matcher = [];
+    private array $matcher = [];
 
-    /** @var MatcherFactory */
-    private $matcherFactory;
+    private MatcherFactory $matcherFactory;
 
-    /** @var ResponseBuilder */
-    private $responseBuilder;
+    private ResponseBuilder $responseBuilder;
 
-    /** @var Closure */
-    private $limiter;
+    private Closure $limiter;
 
-    /** @var ExtractorFactory */
-    private $extractorFactory;
+    private ExtractorFactory $extractorFactory;
 
     public function __construct(
         MockBuilder $mockBuilder,
@@ -37,7 +32,7 @@ class Expectation
         $this->limiter = $limiter;
     }
 
-    public function pathIs($matcher)
+    public function pathIs($matcher) : static
     {
         $this->appendMatcher($matcher, $this->extractorFactory->createPathExtractor());
 
@@ -121,7 +116,7 @@ class Expectation
     }
 
     /** @return SerializableClosure[]  */
-    public function getMatcherClosures()
+    public function getMatcherClosures() : array
     {
         $closures = [];
 
@@ -147,7 +142,7 @@ class Expectation
         return $this->responseBuilder->getResponseCallback();
     }
 
-    public function getLimiter()
+    public function getLimiter() : SerializableClosure
     {
         return new SerializableClosure($this->limiter);
     }

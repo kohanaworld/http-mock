@@ -36,7 +36,7 @@ class HttpMockFacadeMap implements ArrayAccess
         throw new OutOfBoundsException(sprintf('Tried to access property "%1$s". This is a map of facades, try $this->http[\'%1$s\'] instead.', $property));
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset) : mixed
     {
         if (!$this->offsetExists($offset)) {
             throw new OutOfBoundsException(sprintf('No named facade "%s" configured', $offset));
@@ -45,17 +45,17 @@ class HttpMockFacadeMap implements ArrayAccess
         return $this->facadeMap[$offset];
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
         return isset($this->facadeMap[$offset]);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         throw new BadMethodCallException(__METHOD__);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         throw new BadMethodCallException(__METHOD__);
     }

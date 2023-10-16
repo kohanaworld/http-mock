@@ -4,20 +4,18 @@ namespace InterNations\Component\HttpMock\PHPUnit;
 
 trait HttpMockTrait
 {
-    /** @var HttpMockFacade|HttpMockFacadeMap */
-    protected static $staticHttp;
+    protected static HttpMockFacade|HttpMockFacadeMap $staticHttp;
 
-    /** @var HttpMockFacade|HttpMockFacadeMap */
-    protected $http;
+    protected HttpMockFacade|HttpMockFacadeMap|null $http;
 
-    protected function setUpHttpMock()
+    protected function setUpHttpMock() : void
     {
         static::assertHttpMockSetup();
 
         $this->http = clone static::$staticHttp;
     }
 
-    protected function tearDownHttpMock()
+    protected function tearDownHttpMock() : void
     {
         if (!$this->http) {
             return;
@@ -27,7 +25,7 @@ trait HttpMockTrait
         $this->http = null;
         $http->each(
             function (HttpMockFacade $facade) {
-                $this->assertSame(
+                static::assertSame(
                     '',
                     (string) $facade->server->getIncrementalErrorOutput(),
                     'HTTP mock server standard error output should be empty'
@@ -36,17 +34,17 @@ trait HttpMockTrait
         );
     }
 
-    public static function getHttpMockDefaultPort()
+    public static function getHttpMockDefaultPort() : int
     {
         return 28080;
     }
 
-    public static function getHttpMockDefaultHost()
+    public static function getHttpMockDefaultHost() : string
     {
         return 'localhost';
     }
 
-    protected static function setUpHttpMockBeforeClass($port = null, $host = null, $basePath = null, $name = null)
+    protected static function setUpHttpMockBeforeClass($port = null, $host = null, $basePath = '', $name = null) : void
     {
         $port = $port ?: static::getHttpMockDefaultPort();
         $host = $host ?: static::getHttpMockDefaultHost();
@@ -64,7 +62,7 @@ trait HttpMockTrait
         ServerManager::getInstance()->add($facade->server);
     }
 
-    protected static function assertHttpMockSetup()
+    protected static function assertHttpMockSetup() : void
     {
         if (!static::$staticHttp) {
             static::fail(
@@ -77,7 +75,7 @@ trait HttpMockTrait
         }
     }
 
-    protected static function tearDownHttpMockAfterClass()
+    protected static function tearDownHttpMockAfterClass() : void
     {
         static::$staticHttp->each(
             static function (HttpMockFacade $facade) {

@@ -2,9 +2,9 @@
 
 namespace InterNations\Component\HttpMock\Tests\Matcher;
 
-use GuzzleHttp\Psr7\Request;
 use InterNations\Component\HttpMock\Matcher\StringMatcher;
 use InterNations\Component\Testing\AbstractTestCase;
+use Symfony\Component\HttpFoundation\Request;
 
 class StringMatcherTest extends AbstractTestCase
 {
@@ -14,6 +14,6 @@ class StringMatcherTest extends AbstractTestCase
         $matcher->setExtractor(static function () {
             return 0;
         });
-        self::assertTrue($matcher->getMatcher()(new Request('GET', '/')));
+        self::assertTrue($matcher->getMatcher()(Request::create('/', 'GET')));
     }
 }

@@ -19,12 +19,11 @@ use RuntimeException;
  */
 class HttpMockFacade
 {
-    /** @var array */
-    private $services = [];
+    private array $services = [];
 
-    private $basePath;
+    private string $basePath;
 
-    public function __construct($port, $host, $basePath)
+    public function __construct($port, $host, string $basePath)
     {
         $server = new Server($port, $host);
         $server->start();
@@ -46,7 +45,7 @@ class HttpMockFacade
         $this->server->clean();
     }
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->server->setUp($this->mock->flushExpectations());
     }
@@ -61,27 +60,22 @@ class HttpMockFacade
         switch ($property) {
             case 'matches':
                 return new MatcherFactory();
-                break;
 
             case 'mock':
                 return new MockBuilder($this->matches, new ExtractorFactory($this->basePath));
-                break;
 
             case 'client':
                 return $this->server->getClient();
-                break;
 
             case 'requests':
                 return new RequestCollectionFacade($this->client);
-                break;
 
             default:
                 throw new RuntimeException(sprintf('Invalid property "%s" read', $property));
-                break;
         }
     }
 
-    public static function getProperties()
+    public static function getProperties() : array
     {
         return ['server', 'matches', 'mock', 'requests', 'client'];
     }

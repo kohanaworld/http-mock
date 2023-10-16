@@ -16,7 +16,7 @@ class RequestStorage
         $this->directory = $directory;
     }
 
-    public function store(Request $request, $name, $data)
+    public function store(Request $request, $name, $data) : void
     {
         file_put_contents($this->getFileName($request, $name), serialize($data));
     }
@@ -34,21 +34,21 @@ class RequestStorage
         return $r;
     }
 
-    public function append(Request $request, $name, $data)
+    public function append(Request $request, $name, $data) : void
     {
         $list = $this->read($request, $name);
         $list[] = $data;
         $this->store($request, $name, $list);
     }
 
-    public function prepend(Request $request, $name, $data)
+    public function prepend(Request $request, $name, $data) : void
     {
         $list = $this->read($request, $name);
         array_unshift($list, $data);
         $this->store($request, $name, $list);
     }
 
-    public function clear(Request $request, $name)
+    public function clear(Request $request, $name) : void
     {
         $fileName = $this->getFileName($request, $name);
 
@@ -57,7 +57,7 @@ class RequestStorage
         }
     }
 
-    private function getFileName(Request $request, $name)
+    private function getFileName(Request $request, $name) : string
     {
         return $this->directory . $this->pid . '-' . $name . '-' . $request->getUri()->getPort();
     }

@@ -2,16 +2,16 @@
 
 namespace InterNations\Component\HttpMock;
 
-use function GuzzleHttp\Psr7\parse_response;
-use function GuzzleHttp\Psr7\str;
-
+use GuzzleHttp\Psr7\Message;
+use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\ResponseInterface as Response;
 use UnexpectedValueException;
 
 final class Util
 {
-    public static function deserialize($string)
+    public static function deserialize(string $string)
     {
-        $result = static::silentDeserialize($string);
+        $result = Util::silentDeserialize($string);
 
         if ($result === false) {
             throw new UnexpectedValueException('Cannot deserialize string');
@@ -20,19 +20,19 @@ final class Util
         return $result;
     }
 
-    public static function silentDeserialize($string)
+    public static function silentDeserialize(string $string)
     {
         // @codingStandardsIgnoreStart
-        return @unserialize($string);
+        return \unserialize($string);
         // @codingStandardsIgnoreEnd
     }
 
-    public static function responseDeserialize($string)
+    public static function responseDeserialize(string $string) : Response
     {
-        return parse_response($string);
+        return Message::parseResponse($string);
     }
 
-    public static function serializePsrMessage($message)
+    public static function serializePsrMessage(MessageInterface $message) : string
     {
         $headers = $message->getHeaders();
         foreach ($headers as $key => $list) {
@@ -49,6 +49,6 @@ final class Util
             $message->withHeader('cache-control', 'no-cache, private');
         }
 
-        return str($message);
+        return Message::toString($message);
     }
 }

@@ -2,10 +2,10 @@
 
 namespace InterNations\Component\HttpMock\Tests\Matcher;
 
-use GuzzleHttp\Psr7\Request;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\Testing\AbstractTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\HttpFoundation\Request;
 
 class ExtractorFactoryTest extends AbstractTestCase
 {
@@ -15,17 +15,14 @@ class ExtractorFactoryTest extends AbstractTestCase
     /** @var Request|MockObject */
     private $request;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->extractorFactory = new ExtractorFactory();
     }
 
     public function testGetMethod()
     {
-        $request = new Request(
-            'POST',
-            '/'
-        );
+        $request = Request::create('/', 'POST');
 
         $extractor = $this->extractorFactory->createMethodExtractor();
         $this->assertSame('POST', $extractor($request));
@@ -33,10 +30,7 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testGetPath()
     {
-        $request = new Request(
-            'GET',
-            '/foo/bar'
-        );
+        $request = Request::create('/foo/bar', 'GET');
 
         $extractor = $this->extractorFactory->createPathExtractor();
         $this->assertSame('/foo/bar', $extractor($request));
@@ -44,10 +38,7 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testGetPathWithBasePath()
     {
-        $request = new Request(
-            'GET',
-            '/foo/bar'
-        );
+        $request = Request::create('/foo/bar', 'GET');
 
         $extractorFactory = new ExtractorFactory('/foo');
 
@@ -57,10 +48,7 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testGetPathWithBasePathTrailingSlash()
     {
-        $request = new Request(
-            'GET',
-            '/foo/bar'
-        );
+        $request = Request::create('/foo/bar', 'GET');
 
         $extractorFactory = new ExtractorFactory('/foo/');
 
@@ -70,10 +58,7 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testGetPathWithBasePathThatDoesNotMatch()
     {
-        $request = new Request(
-            'GET',
-            '/bar'
-        );
+        $request = Request::create('/bar', 'GET');
 
         $extractorFactory = new ExtractorFactory('/foo');
 
@@ -83,11 +68,8 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testGetHeaderWithExistingHeader()
     {
-        $request = new Request(
-            'GET',
-            '/',
-            ['Content-Type' => 'application/json']
-        );
+        $request = Request::create('/', 'GET', [], [], [], [], json_encode(['key' => 'value']));
+        $request->headers->set('Content-Type', 'application/json');
 
         $extractorFactory = new ExtractorFactory('/foo');
 
@@ -97,11 +79,8 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testGetHeaderWithNonExistingHeader()
     {
-        $request = new Request(
-            'GET',
-            '/',
-            ['X-Foo' => 'bar']
-        );
+        $request = Request::create('/', 'GET', [], [], [], [], json_encode(['key' => 'value']));
+        $request->headers->set('X-Foo', 'bar');
 
         $extractorFactory = new ExtractorFactory('/foo');
 
@@ -111,11 +90,8 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testHeaderExistsWithExistingHeader()
     {
-        $request = new Request(
-            'GET',
-            '/',
-            ['Content-Type' => 'application/json']
-        );
+        $request = Request::create('/', 'GET', [], [], [], [], json_encode(['key' => 'value']));
+        $request->headers->set('Content-Type', 'application/json');
 
         $extractorFactory = new ExtractorFactory('/foo');
 
@@ -125,11 +101,8 @@ class ExtractorFactoryTest extends AbstractTestCase
 
     public function testHeaderExistsWithNonExistingHeader()
     {
-        $request = new Request(
-            'GET',
-            '/',
-            ['X-Foo' => 'bar']
-        );
+        $request = Request::create('/', 'GET', [], [], [], [], json_encode(['key' => 'value']));
+        $request->headers->set('X-Foo', 'bar');
 
         $extractorFactory = new ExtractorFactory('/foo');
 
