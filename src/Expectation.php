@@ -32,7 +32,7 @@ class Expectation
         $this->limiter = $limiter;
     }
 
-    public function pathIs($matcher) : static
+    public function pathIs($matcher)
     {
         $this->appendMatcher($matcher, $this->extractorFactory->createPathExtractor());
 
@@ -116,7 +116,7 @@ class Expectation
     }
 
     /** @return SerializableClosure[]  */
-    public function getMatcherClosures() : array
+    public function getMatcherClosures()
     {
         $closures = [];
 

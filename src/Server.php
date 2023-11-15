@@ -15,7 +15,7 @@ class Server extends Process
 
     private string $host;
 
-    private ?Client $client;
+    private Client $client;
 
     public function __construct(int $port, string $host)
     {
@@ -33,6 +33,7 @@ class Server extends Process
 
         parent::__construct($command, $packageRoot);
         $this->setTimeout(null);
+        $this->client = $this->createClient();
     }
 
     /**
@@ -75,11 +76,13 @@ class Server extends Process
 
     public function getClient() : Client
     {
+        /*
         if (empty($this->client)) {
             $this->client = $this->createClient();
         }
 
-        return $this->client;
+        return $this->client; */
+        return $this->client ?: $this->client = $this->createClient();
     }
 
     public function getBaseUrl() : string
@@ -116,7 +119,7 @@ class Server extends Process
 
     private function createClient() : Client
     {
-        return new Client(['base_uri' => $this->getBaseUrl(), 'http_errors' => false]);
+        return new Client(['base_uri' => $this->getBaseUrl(), 'http_errors' => false, 'debug' => true]);
     }
 
     private function pollWait()

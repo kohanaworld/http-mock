@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
 use InterNations\Component\HttpMock\Server;
 use InterNations\Component\Testing\AbstractTestCase;
+use Opis\Closure\SerializableClosure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -256,8 +257,12 @@ class AppIntegrationTest extends AbstractTestCase
 
     private function createExpectationParams(array $closures, Response $response) : array
     {
+        foreach ($closures as $index => $closure) {
+            $closures[$index] = new SerializableClosure($closure);
+        }
+
         return [
-            'matcher' => $closures,
+            'matcher' => serialize($closures),
             'response' => Message::toString($response),
         ];
     }
