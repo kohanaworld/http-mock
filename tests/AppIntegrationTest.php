@@ -252,7 +252,7 @@ class AppIntegrationTest extends AbstractTestCase
     {
         $body = unserialize($response->getBody());
 
-        return \GuzzleHttp\Psr7\parse_request($body['request']);
+        return Message::parseRequest($body['request']);
     }
 
     private function createExpectationParams(array $closures, Response $response) : array
