@@ -6,3 +6,4 @@ phpunit.xml
 .php_cs.cache
 .php_cs.result.cache
 /.phpunit.result.cache
+/composer.lock
