@@ -1,5 +1,5 @@
 {
-    "name": "internations/http-mock",
+    "name": "kohanaworld/http-mock",
     "description": "Mock HTTP requests on the server side in your PHP unit tests, PSR/7 Fork of internations version",
     "license": "MIT",
     "authors": [
@@ -14,6 +14,10 @@
         {
             "name": "Joshua Eichorn",
             "email": "joshua.eichorn@pagely.com"
+        },
+        {
+            "name": "Kohana World Tean",
+            "email": "ga@koseven.ga"
         }
     ],
     "require": {
