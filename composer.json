@@ -1,6 +1,6 @@
 {
     "name": "kohanaworld/http-mock",
-    "description": "Mock HTTP requests on the server side in your PHP unit tests, PSR/7 Fork of internations version",
+    "description": "Mock HTTP requests on the server side in your PHP unit tests, PSR/7 Fork of internations version php: >= 8.2",
     "license": "MIT",
     "authors": [
         {
