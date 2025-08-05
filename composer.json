@@ -28,7 +28,7 @@
         "guzzlehttp/guzzle": "8.0.x-dev",
         "slim/slim": "^4.12",
         "friendsofphp/php-cs-fixer": "^3.16",
-        "charescape/serialize-closure": "^3.8",
+        "laravel/serializable-closure": "^2.0.4",
         "pimple/pimple": "^3.5",
         "fig/http-message-util": "^1.1"
     },

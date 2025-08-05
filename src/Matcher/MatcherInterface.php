@@ -3,7 +3,7 @@
 namespace InterNations\Component\HttpMock\Matcher;
 
 use Closure;
-use Opis\Closure\SerializableClosure;
+use Laravel\SerializableClosure\SerializableClosure;
 
 interface MatcherInterface
 {

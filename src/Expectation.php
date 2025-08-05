@@ -7,7 +7,7 @@ use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherInterface;
 use InterNations\Component\HttpMock\Matcher\RegexMatcher;
-use Opis\Closure\SerializableClosure;
+use Laravel\SerializableClosure\SerializableClosure;
 use Psr\Http\Message\ResponseInterface;
 
 class Expectation

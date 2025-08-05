@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
 use InterNations\Component\HttpMock\Server;
 use InterNations\Component\Testing\AbstractTestCase;
-use Opis\Closure\SerializableClosure;
+use Laravel\SerializableClosure\SerializableClosure;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
