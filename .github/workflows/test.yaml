@@ -20,7 +20,7 @@
       strategy:
         fail-fast: true
         matrix:
-          php: [8.2, 8.3]
+          php: [8.3, 8.4]
           phpunit: ['9.6.16']
           #        stability: [prefer-lowest, prefer-stable]
           stability: [prefer-dist]
