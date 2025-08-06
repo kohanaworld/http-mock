@@ -11,9 +11,10 @@ permissions:
 
 jobs:
   build:
-
-    runs-on: [self-hosted, xmis, alpha, beta]
-      
+    runs-on: 
+       - self-hosted
+       - linux
+       - x64
     steps:
     - uses: actions/checkout@v4
 
