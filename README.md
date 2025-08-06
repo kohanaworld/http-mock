@@ -1,5 +1,5 @@
 # HTTP Mock for PHP
-
+[![Test](https://github.com/kohanaworld/http-mock/actions/workflows/test.yaml/badge.svg)](https://github.com/kohanaworld/http-mock/actions/workflows/test.yaml)
 [![channel icon](https://kohanaworld.github.io/telegram-badge/chat.png)](https://t.me/kohanaworld)
 
 Mock HTTP requests on the server side in your PHP unit tests.
