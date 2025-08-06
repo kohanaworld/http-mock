@@ -5,7 +5,7 @@ namespace InterNations\Component\HttpMock;
 use Closure;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
-use Opis\Closure\SerializableClosure;
+use Laravel\SerializableClosure\SerializableClosure;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseBuilder

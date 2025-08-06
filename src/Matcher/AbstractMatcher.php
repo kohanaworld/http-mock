@@ -3,7 +3,7 @@
 namespace InterNations\Component\HttpMock\Matcher;
 
 use Closure;
-use Opis\Closure\SerializableClosure;
+use Laravel\SerializableClosure\SerializableClosure;
 use Psr\Http\Message\RequestInterface as Request;
 
 abstract class AbstractMatcher implements MatcherInterface
