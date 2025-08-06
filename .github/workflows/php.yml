@@ -13,7 +13,7 @@ jobs:
   build:
 
     runs-on: [self-hosted, xmis, alpha, beta]
-      group: xmis
+      
     steps:
     - uses: actions/checkout@v4
 
