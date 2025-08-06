@@ -15,10 +15,9 @@
     test:
       #name: PHP ${{ matrix.php-version }}
       name: PHP ${{ matrix.php }} - ${{ matrix.phpunit }} -  ${{ matrix.stability }}
-      runs-on: 
-       - self-hosted
-       - linux
-       - x64
+      runs-on:
+        group: xmis
+        labels: [self-hosted, ubuntu-latest]
       strategy:
         fail-fast: true
         matrix:
