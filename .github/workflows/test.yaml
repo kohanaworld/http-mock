@@ -1,5 +1,6 @@
   name: Test
 
+
   on:
     push:
       branches: [ "master", "dev" ]
@@ -10,13 +11,14 @@
     contents: read
 
   jobs:
-
-
+    
     test:
       #name: PHP ${{ matrix.php-version }}
       name: PHP ${{ matrix.php }} - ${{ matrix.phpunit }} -  ${{ matrix.stability }}
-      runs-on: ubuntu-20.04
-
+      runs-on: 
+       - self-hosted
+       - linux
+       - x64
       strategy:
         fail-fast: true
         matrix:
