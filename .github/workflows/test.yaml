@@ -31,14 +31,22 @@
           uses: actions/checkout@v4
 
         - name: Setup PHP
-          # https://github.com/shivammathur/setup-php
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ matrix.php }}
-            extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, :php-psr #sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, lzf, zstd, lz4, memcached, gmp,
-            ini-values: error_reporting=E_ALL
-            tools: composer:v2
-            coverage: none
+          run: |
+            # Используем уже установленный PHP
+            php${{ matrix.php }} --version
+            update-alternatives --set php /usr/bin/php${{ matrix.php }}
+            composer --version
+            # Устанавливаем php.ini настройки
+            echo "error_reporting = E_ALL" >> /etc/php/${{ matrix.php }}/cli/php.ini
+         # - name: Setup PHP
+         #  # https://github.com/shivammathur/setup-php
+         #  uses: shivammathur/setup-php@v2
+         #  with:
+         #    php-version: ${{ matrix.php }}
+         #    extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, :php-psr #sqlite, pdo_sqlite, gd, redis, igbinary, msgpack, lzf, zstd, lz4, memcached, gmp,
+         #    ini-values: error_reporting=E_ALL
+         #    tools: composer:v2
+         #    coverage: none
             #env:
             #REDIS_CONFIGURE_OPTS: --enable-redis --enable-redis-igbinary --enable-redis-msgpack --enable-redis-lzf --with-liblzf --enable-redis-zstd --with-libzstd --enable-redis-lz4 --with-liblz4
             #REDIS_LIBS: liblz4-dev, liblzf-dev, libzstd-dev
