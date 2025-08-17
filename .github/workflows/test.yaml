@@ -16,8 +16,8 @@
       #name: PHP ${{ matrix.php-version }}
       name: PHP ${{ matrix.php }} - ${{ matrix.phpunit }} -  ${{ matrix.stability }}
       runs-on:
-        group: xmis
-        labels: [self-hosted, ubuntu-latest]
+#        group: xmis
+        labels: [self-hosted, k3s]
       strategy:
         fail-fast: true
         matrix:
